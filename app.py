@@ -1,0 +1,72 @@
+import streamlit as st
+import pandas as pd
+
+## TITLE
+st.title("BUDGETING TOOL")
+
+
+## SIDEBAR
+st.sidebar.title("Your Finances:")
+
+st.sidebar.subheader("Income")
+income_type = st.sidebar.radio("Are you payed Hourly or Salary?", ('Hourly', 'Salary'))
+
+if income_type == 'Hourly':
+    income_M = st.sidebar.number_input("What is your HOURLY income?")
+    income = income_M * 40 * 4
+else:
+    income_A = st.sidebar.number_input("What is your ANNUAL income?")
+    income = f"{(income_A / 12):.2f}"
+    
+st.sidebar.write("Rough Monthly Income: " + str(income))
+    
+    
+
+## BODY
+st.header("Bills Breakdown by MONTH")
+
+st.subheader("First Bill -")
+with st.container():
+    col1, col2 = st.columns(2)
+    with col1:
+        bill1 = st.text_input("Enter 1st bill NAME:", placeholder="bill 1")
+    with col2:
+        bill1_amount = st.number_input("Enter 1st bill AMOUNT:")
+st.subheader("Second Bill -")
+with st.container():
+    col1, col2 = st.columns(2)
+    with col1:
+        bill2 = st.text_input("Enter 2nd bill NAME:", placeholder="bill 2")
+    with col2:
+        bill2_amount = st.number_input("Enter 2nd bill AMOUNT:")
+st.subheader("Third Bill -")
+with st.container():
+    col1, col2 = st.columns(2)
+    with col1:
+        bill3 = st.text_input("Enter 3rd bill NAME:", placeholder="bill 3")
+    with col2:
+        bill3_amount = st.number_input("Enter 3rd bill AMOUNT:")
+st.button("Reset")
+
+my_dict = {
+    bill1: bill1_amount,
+    bill2: bill2_amount,
+    bill3: bill3_amount    
+} 
+df = pd.DataFrame.from_dict([my_dict])
+st.table(df)
+
+
+## SUMMARY
+total_bills = bill1_amount + bill2_amount + bill3_amount
+savings = round((float(income) - total_bills), 2)
+
+if st.button("Calculate"):
+    st.write("total monthly income: $" + str(income))
+    st.write("total bills amount: $" + str(total_bills))
+    if savings < 500:
+        st.error(f"Total Savings: ${savings}")
+    elif savings < 1500 and savings >= 500:
+        st.warning(f"Total Savings: ${savings}")
+    elif savings >= 1500:
+        st.success(f"Total Savings: ${savings}")
