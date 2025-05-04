@@ -52,7 +52,8 @@ my_dict = {
     bill1: bill1_amount,
     bill2: bill2_amount,
     bill3: bill3_amount    
-} 
+}
+
 df = pd.DataFrame.from_dict([my_dict])
 st.table(df)
 
