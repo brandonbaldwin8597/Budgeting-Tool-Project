@@ -13,7 +13,7 @@ income_type = st.sidebar.radio("Are you payed Hourly or Salary?", ('Hourly', 'Sa
 
 if income_type == 'Hourly':
     income_M = st.sidebar.number_input("What is your HOURLY income?")
-    income = income_M * 40 * 4
+    income = f"{(income_M * 40 * 4):.2f}"
 else:  
     income_A = st.sidebar.number_input("What is your ANNUAL income?")
     income = f"{(income_A / 12):.2f}"
